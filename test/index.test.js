@@ -1,6 +1,6 @@
-import express from 'express';
-import supertest from 'supertest';
-import { wrapRouter, wrap } from '../src';
+const express = require('express');
+const supertest = require('supertest');
+const { wrapRouter, wrap } = require('../lib');
 
 describe('Wrap', () => {
     it('creates a async router', async () => {

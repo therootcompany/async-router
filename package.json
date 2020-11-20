@@ -2,17 +2,26 @@
   "name": "express-async-await",
   "version": "1.0.1",
   "description": "Write Express middleware and route handlers using async/await",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "engines": {
     "node": ">= 12.19.0",
     "npm": ">= 6.14.8"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/michal-choluj/express-async-await"
+  },
+  "keywords": [
+    "expressjs",
+    "async/await",
+    "async",
+    "await",
+    "es6"
+  ],
   "scripts": {
-    "lint": "eslint src",
+    "lint": "eslint lib",
     "prettier": "prettier --write **/*.{js,json}",
     "test": "jest --runInBand --projects jest.config.json --forceExit",
-    "build": "rimraf dist && babel src --copy-files --out-dir dist",
-    "prepublish": "npm run build",
     "preversion": "npm test"
   },
   "husky": {
@@ -30,15 +39,8 @@
     ]
   },
   "author": "MichalC",
-  "license": "MIT License",
+  "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.3",
-    "@babel/node": "^7.12.6",
-    "@babel/plugin-syntax-class-properties": "^7.12.1",
-    "@babel/plugin-transform-runtime": "^7.12.1",
-    "@babel/preset-env": "^7.12.1",
-    "babel-eslint": "^10.1.0",
     "eslint": "^7.13.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-config-standard": "^16.0.2",
