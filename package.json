@@ -12,7 +12,8 @@
     "prettier": "prettier --write **/*.{js,json}",
     "test": "jest --runInBand --projects jest.config.json --forceExit",
     "build": "rimraf dist && babel src --copy-files --out-dir dist",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "preversion": "npm test"
   },
   "husky": {
     "hooks": {
