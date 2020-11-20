@@ -31,6 +31,15 @@ router.get('/foo', [
         throw new Error('Exception!');
     }
 ]);
+
+router.get('/boo', [
+    async (req, res, next) => {
+        next();
+    },
+    async (req, res, next) => {
+        await UserService.find();
+    }
+]);
 ```
 
 ### You can use middleware without async/await

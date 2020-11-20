@@ -2,7 +2,7 @@
   "name": "express-async-await",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "engines": {
     "node": ">= 12.19.0",
     "npm": ">= 6.14.8"
@@ -11,7 +11,8 @@
     "lint": "eslint src",
     "prettier": "prettier --write **/*.{js,json}",
     "test": "jest --runInBand --projects jest.config.json --forceExit",
-    "build": "rimraf dist && babel src --copy-files --out-dir dist --source-maps"
+    "build": "rimraf dist && babel src --copy-files --out-dir dist",
+    "prepublish": "npm run build"
   },
   "husky": {
     "hooks": {

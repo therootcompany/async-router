@@ -1,6 +1,6 @@
 import express from 'express';
 import supertest from 'supertest';
-import { wrapRouter } from '.';
+import { wrapRouter } from '../src';
 
 describe('Router', () => {
     it('creates a async router', async () => {
@@ -22,6 +22,30 @@ describe('Router', () => {
         expect(res.constructor.name).toBe('Response');
         expect(res.statusCode).toBe(500);
         expect(res.error.text).toBe('Oops!');
+    });
+
+    it('handle a middleware with promise', async () => {
+        const app = express();
+        const router = wrapRouter(express.Router());
+
+        router.get('/test', async (req, res, next) => {
+            const result = await new Promise((resolve) => {
+                resolve('Oops!');
+            });
+            res.send({ result });
+        });
+
+        app.use(router);
+        app.use((err, req, res, next) => {
+            res.status(500).send(err.message);
+        });
+
+        const request = supertest(app);
+        const res = await request.get('/test');
+
+        expect(res.constructor.name).toBe('Response');
+        expect(res.statusCode).toBe(200);
+        expect(res.body.result).toBe('Oops!');
     });
 
     it('handle an array of middlewares as async functions', async () => {
