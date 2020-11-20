@@ -6,8 +6,6 @@ Write Express middleware and route handlers using async/await
 
 ```javascript
 const { wrapRouter } = require('express-async-await');
-
-const app = express();
 const router = wrapRouter(express.Router());
 
 router.get('/foo', async (req, res, next) => {
@@ -15,12 +13,23 @@ router.get('/foo', async (req, res, next) => {
 });
 ```
 
+### You can just return the body and send back the data to the user.
+
+```javascript
+const { wrapRouter } = require('express-async-await');
+const router = wrapRouter(express.Router());
+
+router.get('/foo', async (req) => {
+    return await new Promise((resolve) => {
+        resolve({ message: 'Hello!' });
+    });
+});
+```
+
 ### You can use array of middlewares
 
 ```javascript
 const { wrapRouter } = require('express-async-await');
-
-const app = express();
 const router = wrapRouter(express.Router());
 
 router.get('/foo', [
@@ -46,8 +55,6 @@ router.get('/boo', [
 
 ```javascript
 const { wrapRouter } = require('express-async-await');
-
-const app = express();
 const router = wrapRouter(express.Router());
 
 router.get('/foo', [
