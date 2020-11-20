@@ -54,3 +54,15 @@ router.get('/foo', [
     }
 ]);
 ```
+
+## API
+
+### wrapRouter()
+
+The `wrapRouter()` is the best way to add async/await
+support to your Express app or Router.
+
+### wrap()
+
+If you need more control you can use the `wrap()` function.
+This function wraps an async Express middleware and adds async/await support.
