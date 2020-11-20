@@ -105,4 +105,33 @@ describe('Router', () => {
         expect(res.statusCode).toBe(500);
         expect(res.error.text).toBe('Oops!');
     });
+    it('handle middleware without async/await block', async () => {
+        const app = express();
+        const router = wrapRouter(express.Router());
+
+        router.get('/test', [
+            (req, res, next) => {
+                next();
+            },
+            (req, res, next) => {
+                try {
+                    throw new Error('Oops!');
+                } catch (error) {
+                    next(error);
+                }
+            }
+        ]);
+
+        app.use(router);
+        app.use((err, req, res, next) => {
+            res.status(500).send(err.message);
+        });
+
+        const request = supertest(app);
+        const res = await request.get('/test');
+
+        expect(res.constructor.name).toBe('Response');
+        expect(res.statusCode).toBe(500);
+        expect(res.error.text).toBe('Oops!');
+    });
 });
