@@ -1,0 +1,17 @@
+{
+    "env": {
+        "es2021": true
+    },
+    "extends": ["standard", "plugin:jest/recommended"],
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-console": [2, { "allow": ["warn", "error"] }],
+        "space-before-function-paren": ["error", { "anonymous": "always", "named": "never", "asyncArrow": "always" }],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "semi": ["error", "always"]
+    }
+}

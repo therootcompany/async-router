@@ -1,0 +1,6 @@
+{
+    "displayName": "unit",
+    "testEnvironment": "node",
+    "runner": "jest-runner",
+    "testMatch": ["<rootDir>**/*.test.js"]
+}

@@ -1,0 +1,9 @@
+# Build directory
+dist
+
+# Test directories
+coverage
+.nyc_output
+
+# NPM files
+package.json
