@@ -1,5 +1,5 @@
 {
-  "name": "express-async-await",
+  "name": "expressjs-async-await",
   "version": "1.0.1",
   "description": "Write Express middleware and route handlers using async/await",
   "main": "lib/index.js",
