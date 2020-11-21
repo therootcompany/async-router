@@ -1,5 +1,5 @@
 {
-  "name": "expressjs-async-await",
+  "name": "express-promisify-router",
   "version": "1.0.3",
   "description": "Write Express middleware and route handlers using async/await",
   "main": "lib/index.js",
@@ -12,6 +12,9 @@
     "url": "git://github.com/michal-choluj/express-async-await"
   },
   "keywords": [
+    "middleware",
+    "promisify",
+    "express",
     "expressjs",
     "async/await",
     "async",
