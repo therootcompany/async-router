@@ -40,6 +40,9 @@
   },
   "author": "MichalC",
   "license": "MIT",
+  "peerDependencies": {
+    "express": "4.x"
+  },
   "devDependencies": {
     "eslint": "^7.13.0",
     "eslint-config-prettier": "^6.15.0",

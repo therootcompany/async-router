@@ -1,15 +1,15 @@
 const express = require('express');
 const supertest = require('supertest');
-const { wrapRouter, wrap } = require('../lib');
+const { wrapRouter, wrapFunction } = require('../lib');
 
-describe('Wrap', () => {
+describe('wrapFunction', () => {
     it('creates a async router', async () => {
         const app = express();
         const router = express.Router();
 
         router.get(
             '/test',
-            wrap(async (req, res, next) => {
+            wrapFunction(async (req, res, next) => {
                 throw new Error('Oops!');
             })
         );
@@ -28,8 +28,29 @@ describe('Wrap', () => {
     });
 });
 
-describe('Router', () => {
+describe('wrapRouter', () => {
     it('creates a async router', async () => {
+        const app = express();
+        const router = wrapRouter(express.Router());
+
+        router.route('/test').get(async (req, res, next) => {
+            throw new Error('Oops!');
+        });
+
+        app.use(router);
+        app.use((err, req, res, next) => {
+            res.status(500).send(err.message);
+        });
+
+        const request = supertest(app);
+        const res = await request.get('/test');
+
+        expect(res.constructor.name).toBe('Response');
+        expect(res.statusCode).toBe(500);
+        expect(res.error.text).toBe('Oops!');
+    });
+
+    it('handle router.route()', async () => {
         const app = express();
         const router = wrapRouter(express.Router());
 
@@ -56,8 +77,9 @@ describe('Router', () => {
 
         router.get(
             '/test',
-            (req) => {
+            (req, res, next) => {
                 req.foo = 'Boo!';
+                next();
             },
             async (req) => {
                 const result = await new Promise((resolve) => {
