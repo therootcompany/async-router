@@ -2,6 +2,8 @@
 
 An ultra-lightweight, zero-dependency JavaScript library for Express framework. Write middleware and routes using async/await. You can return a promise directly from the router handler without a try-catch block and send back the data to the user.
 
+[![npm version](https://badge.fury.io/js/express-promisify-router.svg)](https://badge.fury.io/js/express-promisify-router)
+
 ## Usage
 
 ```javascript
