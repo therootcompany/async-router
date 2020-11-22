@@ -1,6 +1,6 @@
 {
   "name": "express-promisify-router",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Write Express middleware and route handlers using async/await",
   "main": "lib/index.js",
   "engines": {
