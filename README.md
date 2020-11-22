@@ -1,12 +1,12 @@
 # express-promisify-router
 
-An ultra-lightweight JavaScript library for Express. Write middleware and routes methods using async/await. You can return a promise directly from the router handler without try-catch block and send back the data to the user.
+An ultra-lightweight JavaScript library for Express. Write middleware and routes using async/await. You can return a promise directly from the router handler without try-catch block and send back the data to the user.
 
 ## Usage
 
 ```javascript
 // Usage Example
-const { Router } = require('express-async-await');
+const { Router } = require('express-promisify-router');
 const router = Router();
 
 router.get('/foo', async (req, res, next) => {
@@ -20,7 +20,7 @@ router.get('/foo', async (req, res, next) => {
 
 ```javascript
 // Usage Example
-const { wrapRouter } = require('express-async-await');
+const { wrapRouter } = require('express-promisify-router');
 const router = wrapRouter(express.Router());
 
 router.get('/foo', async (req, res, next) => {
@@ -31,7 +31,7 @@ router.get('/foo', async (req, res, next) => {
 
 ```javascript
 // Usage Example
-const { Router } = require('express-async-await');
+const { Router } = require('express-promisify-router');
 const router = Router();
 
 router
@@ -48,7 +48,7 @@ router
 
 ```javascript
 // Usage Example
-const { wrapRouter } = require('express-async-await');
+const { wrapRouter } = require('express-promisify-router');
 const router = wrapRouter(express.Router());
 
 router.get('/foo', async (req) => {
@@ -64,7 +64,7 @@ Use `next()` callback if you want to jump to the next middleware
 
 ```javascript
 // Usage Example
-const { wrapRouter } = require('express-async-await');
+const { wrapRouter } = require('express-promisify-router');
 const router = wrapRouter(express.Router());
 
 router.get('/foo', [
@@ -81,7 +81,7 @@ router.get('/foo', [
 
 ```javascript
 // Usage Example
-const { wrapRouter } = require('express-async-await');
+const { wrapRouter } = require('express-promisify-router');
 const router = wrapRouter(express.Router());
 
 router.get('/foo', [
