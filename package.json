@@ -1,5 +1,5 @@
 {
-  "name": "express-promisify-router",
+  "name": "@root/async-router",
   "version": "1.0.7",
   "description": "Write Express middleware and route handlers using async/await",
   "main": "lib/index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/michal-choluj/express-promisify-router"
+    "url": "git://github.com/therootcompany/async-router"
   },
   "keywords": [
     "middleware",
@@ -41,7 +41,6 @@
       "prettier --write"
     ]
   },
-  "author": "MichalC",
   "license": "MIT",
   "peerDependencies": {
     "express": "4.x"
