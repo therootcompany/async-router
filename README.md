@@ -82,6 +82,16 @@ http.createServer(server).listen(3000, function () {
 });
 ```
 
+Also, since it's useful to have this snippet for demos:
+
+```js
+async function sleep(ms) {
+    await new Promise(function (resolve) {
+        setTimeout(resolve, ms);
+    });
+}
+```
+
 ## API
 
 ### Router() - same as express.Router()
