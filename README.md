@@ -1,116 +1,147 @@
-# express-promisify-router
+# [@root/async-router](https://github.com/therootcompany/async-router)
 
-An ultra-lightweight, zero-dependency JavaScript library for Express framework. Write middleware and routes using async/await. You can return a promise directly from the router handler without a try-catch block and send back the data to the user.
+A lightweight, zero-dependency JavaScript library to bring native `Promise`s and
+`async`/`await` to Express.
 
-[![npm version](https://badge.fury.io/js/express-promisify-router.svg)](https://badge.fury.io/js/express-promisify-router)
+Wraps the Express Router and provides a drop-in replacement to allow you to
+progressively enhance your routes with Promise and await support.
+
+```js
+// Handle Async & Promise routes - and normal routes too!
+app.get('/foo', async function (req, res) {
+    let user = await UserService.findById();
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    // res.json() will be called automatically
+    return users;
+});
+```
+
+## Features
+
+-   [x] API-compatible with `express.Router()`
+    -   [x] NO refactoring required!
+-   [x] supports `Promise`s
+-   [x] supports `async`/`await`
+-   [x] `res.json()` can be called automatically
 
 ## Usage
 
-```javascript
-// Usage Example: use wrapped Router()
-const { Router } = require('express-promisify-router');
-const router = Router();
+```js
+'use strict';
 
-router.get('/foo', async (req, res, next) => {
-    const user = await UserService.findById();
+let http = require('http');
+let express = require('express');
+let app = require('@root/async-router').Router();
+
+// Handle Async & Promise routes
+app.get('/foo', async function (req, res) {
+    let user = await UserService.findById();
     if (!user) {
-        throw new NotFound('User not found');
+        throw new Error('User not found');
     }
+
+    // res.json() will be called automatically
     return users;
 });
-```
 
-```javascript
-// Usage Example: use wrapRouter()
-const express = require('express');
-const { wrapRouter } = require('express-promisify-router');
-const router = wrapRouter(express.Router());
+// Handles existing routes too - no refactoring required!
+app.get('/foo', async function (req, res) {
+    try {
+        let user = await UserService.findById();
+    } catch (e) {
+        console.error('Unexpected');
+        console.error(e);
+        res.statusCode = 500;
+        res.end('Internal Server Error');
+    }
 
-router.get('/foo', async (req, res, next) => {
-    const user = await UserService.findById();
     if (!user) {
-        throw new NotFound('User not found');
+        res.statusCode = 404;
+        res.json({ error: 'User not found' });
+        return;
     }
-    return users;
+
+    res.json(users);
 });
-```
 
-```javascript
-const { Router } = require('express-promisify-router');
-const router = Router();
-
-router
-    .route('/foo')
-    .get((req, res, next) => {
-        return UserService.fetch();
-    })
-    .post((req, res, next) => {
-        return UserService.create();
-    });
-```
-
-### You can just return the body and send back the data to the user.
-
-```javascript
-const express = require('express');
-const { wrapRouter } = require('express-promisify-router');
-const router = wrapRouter(express.Router());
-
-router.get('/foo', async (req) => {
-    return await new Promise((resolve) => {
-        resolve({ message: 'Hello!' });
-    });
+// Handle errors (must come after associated routes)
+app.use('/', function (err, req, res, next) {
+    console.error('Unhandled Error');
+    console.error(err);
+    res.statusCode = 500;
+    res.end(err.message);
 });
-```
 
-### You can use array of middlewares
-
-Use `next()` callback if you want to jump to the next middleware
-
-```javascript
-const express = require('express');
-const { wrapRouter } = require('express-promisify-router');
-const router = wrapRouter(express.Router());
-
-router.get('/foo', [
-    (req, res, next) => {
-        next();
-    },
-    async (req, res, next) => {
-        throw new Error('Exception!');
-    }
-]);
-```
-
-### Feel free and use middleware a classic way
-
-```javascript
-const express = require('express');
-const { wrapRouter } = require('express-promisify-router');
-const router = wrapRouter(express.Router());
-
-router.get('/foo', [
-    (req, res, next) => {
-        next();
-    },
-    (req, res, next) => {
-        try {
-            res.send();
-        } catch (err) {
-            next(err);
-        }
-    }
-]);
+// Start node.js express server
+let server = express().use('/', app);
+http.createServer(server).listen(3000, function () {
+    console.info('Listening on', this.address());
+});
 ```
 
 ## API
 
-### wrapRouter()
+### Router() - same as express.Router()
 
-The `wrapRouter()` is the best way to add async/await
+```js
+let app = require('@root/async-router').Router();
+```
+
+This is just a wrapper around `express.Router()`, which is what provides the
+default router and "mini apps" of express - so it has all of the same methods
+and function signatures:
+
+```js
+app.use(path, middlewares);
+app.route(path, minApp);
+app.head(path, fns);
+app.get(path, fns);
+app.post(path, fns);
+app.patch(path, fns);
+app.delete(path, fns);
+// ... etc
+```
+
+Any incompatibility should be file as a bug.
+
+### NOT an express server
+
+It does NOT copy the top-level express server API. You should still use express for that:
+
+```js
+let server = express()
+    // top-level server options
+    .set('trust proxy', 1)
+    // set async router
+    .use('/', app);
+
+require('http')
+    .createServer(server)
+    .listen(3000, function () {
+        console.info('Listening on', this.address());
+    });
+```
+
+### wrap(app)
+
+The `wrap(app)` is the best way to add async/await
 support to your Express app or Router.
 
-### wrapFunction()
+```js
+let syncApp = express.Router();
+let app = require('@root/async-router').wrap(syncApp);
+```
 
-If you need more control you can use the `wrapFunction()` function.
-This function wraps an async Express middleware and adds async/await support.
+## [LICENSE](/LICENSE)
+
+Fork of [`express-promisify-router`][fork] to [bugfix error handling][fix].
+
+[fork]: https://github.com/michal-choluj/express-promisify-router#readme
+[fix]: https://github.com/michal-choluj/express-promisify-router/pull/3
+
+MIT License
+
+See [LICENSE](/LICENSE).
