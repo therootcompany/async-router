@@ -9,13 +9,10 @@ progressively enhance your routes with Promise and await support.
 ```js
 // Handle Async & Promise routes - and normal routes too!
 app.get('/foo', async function (req, res) {
-    let user = await UserService.findById();
+    // no more try/catch wrappers
+    // no more 'unhandledRejection' errors
+    let user = await UserService.findById(req.user.id);
     
-    if (!user) {
-        // no more 'unhandledRejection' errors!
-        throw new Error('User not found');
-    }
-
     // res.json() can be called automatically
     return users;
 });
