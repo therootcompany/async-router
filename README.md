@@ -159,17 +159,19 @@ Any incompatibility should be file as a bug.
 It does NOT copy the top-level express server API. You should still use express for that:
 
 ```js
+// top-level options are still handled by the express server instance
 let server = express()
-    // top-level server options
     .set('trust proxy', 1)
-    // set async router
+    .set('view engine', 'pug')
     .use('/', app);
 
 require('http')
     .createServer(server)
-    .listen(3000, function () {
-        console.info('Listening on', this.address());
-    });
+    .listen(3000, onListen);
+    
+function onListen() {
+    console.info('Listening on', this.address());
+}
 ```
 
 ### wrap(app)
