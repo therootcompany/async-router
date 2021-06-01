@@ -1,6 +1,6 @@
 {
   "name": "@root/async-router",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Write Express middleware and route handlers using async/await",
   "main": "lib/index.js",
   "engines": {
