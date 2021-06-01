@@ -1,15 +1,15 @@
 const express = require('express');
 const supertest = require('supertest');
-const { wrapRouter, wrapFunction } = require('../lib');
+const { wrap, _wrapFunction } = require('../lib');
 
-describe('wrapFunction', () => {
+describe('_wrapFunction', () => {
     it('creates a async router', async () => {
         const app = express();
         const router = express.Router();
 
         router.get(
             '/test',
-            wrapFunction(async (req, res, next) => {
+            _wrapFunction(async (req, res, next) => {
                 throw new Error('Oops!');
             })
         );
@@ -28,10 +28,10 @@ describe('wrapFunction', () => {
     });
 });
 
-describe('wrapRouter', () => {
+describe('wrap', () => {
     it('creates a async router', async () => {
         const app = express();
-        const router = wrapRouter(express.Router());
+        const router = wrap(express.Router());
 
         router.route('/test').get(async (req, res, next) => {
             throw new Error('Oops!');
@@ -52,7 +52,7 @@ describe('wrapRouter', () => {
 
     it('handle router.route()', async () => {
         const app = express();
-        const router = wrapRouter(express.Router());
+        const router = wrap(express.Router());
 
         router.get('/test', async (req, res, next) => {
             throw new Error('Oops!');
@@ -73,7 +73,7 @@ describe('wrapRouter', () => {
 
     it('return proper response', async () => {
         const app = express();
-        const router = wrapRouter(express.Router());
+        const router = wrap(express.Router());
 
         router.get(
             '/test',
@@ -105,7 +105,7 @@ describe('wrapRouter', () => {
 
     it('handle a middleware with promise', async () => {
         const app = express();
-        const router = wrapRouter(express.Router());
+        const router = wrap(express.Router());
 
         router.get('/test', async (req, res, next) => {
             const result = await new Promise((resolve) => {
@@ -129,7 +129,7 @@ describe('wrapRouter', () => {
 
     it('handle an array of middlewares as async functions', async () => {
         const app = express();
-        const router = wrapRouter(express.Router());
+        const router = wrap(express.Router());
 
         router.get('/test', [
             async (req, res, next) => {
@@ -155,7 +155,7 @@ describe('wrapRouter', () => {
 
     it('handle many middlewares as async functions', async () => {
         const app = express();
-        const router = wrapRouter(express.Router());
+        const router = wrap(express.Router());
 
         router.get(
             '/test',
@@ -182,7 +182,7 @@ describe('wrapRouter', () => {
 
     it('handle an array of middlewares as mixed functions', async () => {
         const app = express();
-        const router = wrapRouter(express.Router());
+        const router = wrap(express.Router());
 
         router.get('/test', [
             (req, res, next) => {
@@ -211,7 +211,7 @@ describe('wrapRouter', () => {
 
     it('handle middleware without async/await block', async () => {
         const app = express();
-        const router = wrapRouter(express.Router());
+        const router = wrap(express.Router());
 
         router.get('/test', [
             (req, res, next) => {
