@@ -31,6 +31,44 @@ app.get('/foo', async function (req, res) {
 
 ## Usage
 
+### TL;DR
+
+Swap out `app` for a the async router, and handle the server separately:
+
+```js
+let app = require('@root/async-router').Router();
+
+// ...
+
+let server = express().use('/', app);
+http.createServer(server).listen(3000, onListen);
+```
+
+Keep existing routes just they way they are...
+
+```js
+// yuck!
+app.get('/profile', async function (req, res, next) {
+    try {
+        let results = await ProfileModel.get(req.user.id);
+        res.json(results);
+    } catch(e) {
+        return next(e);
+    }
+})
+```
+
+Or give them a facelift:
+
+```js
+// yay!
+app.get('/profile', async function (req, res) {
+    return await ProfileModel.get(req.user.id);
+})
+```
+
+### Full Example
+
 ```js
 'use strict';
 
