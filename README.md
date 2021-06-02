@@ -1,6 +1,6 @@
 # [@root/async-router](https://github.com/therootcompany/async-router)
 
-[![express-async-router_14 1 1-youtube](https://user-images.githubusercontent.com/122831/120441794-2cb13180-c342-11eb-9747-6db1e472b3be.jpg))[https://www.youtube.com/watch?v=XFn0SJmGYs4&list=PLxki0D-ilnqZfyo2dZe11ZNGP7RJxJcoA&index=18]
+[![express-async-router_14 1 1-youtube](https://user-images.githubusercontent.com/122831/120441794-2cb13180-c342-11eb-9747-6db1e472b3be.jpg)](https://www.youtube.com/watch?v=XFn0SJmGYs4&list=PLxki0D-ilnqZfyo2dZe11ZNGP7RJxJcoA&index=18)
 
 A lightweight, zero-dependency JavaScript library to bring native `Promise`s and
 `async`/`await` to Express.
