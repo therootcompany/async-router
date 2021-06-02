@@ -24,6 +24,10 @@ app.get('/foo', async function (req, res) {
     -   [x] NO refactoring required!
 -   [x] supports `Promise`s
 -   [x] supports `async`/`await`
+-   [x] Proper error handling!
+    - [x] No more `unhandledPromiseRejectionWarning`  
+    - [x] No more `unhandledRejection`
+    - [x] No uncaught exception server crashes
 -   [x] `res.json()` can be called automatically
 
 ## Usage
