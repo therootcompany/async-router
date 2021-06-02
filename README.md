@@ -64,6 +64,27 @@ app.get('/profile', async function (req, res) {
 })
 ```
 
+#### Caveats
+
+If you need to set express options, you'll move that down to the bottom as well:
+
+```js
+let app = require('@root/async-router').Router();
+
+// ...
+
+let server = express()
+    .use('trust proxy', 1)
+    .use('view engine', 'pug')
+    .use('/', app);
+http.createServer(server).listen(3000, onListen);
+```
+
+Also, if you do happen to have a few routes that explicitly
+`res.json()` in a callback after having returning a value,
+those would need to be updated - a very rare case, but I'm
+sure it exists in some code somewhere.
+
 ### Full Example
 
 ```js
