@@ -15,8 +15,7 @@ app.get('/foo', async function (req, res) {
     // no more 'unhandledRejection' errors
     let user = await UserService.findById(req.user.id);
     
-    // res.json() can be called automatically
-    return users;
+    res.json(users);
 });
 ```
 
@@ -30,7 +29,7 @@ app.get('/foo', async function (req, res) {
     - [x] No more `unhandledPromiseRejectionWarning`  
     - [x] No more `unhandledRejection`
     - [x] No uncaught exception server crashes
--   [x] `res.json()` can be called automatically
+-   [x] `res.json()` _can_ be called automatically
 
 ## Usage
 
@@ -66,7 +65,7 @@ Or give them a facelift:
 ```js
 // yay!
 app.get('/profile', async function (req, res) {
-    return await ProfileModel.get(req.user.id);
+    res.json(await ProfileModel.get(req.user.id));
 })
 ```
 
@@ -107,7 +106,9 @@ app.get('/foo', async function (req, res) {
         throw new Error('User not found');
     }
 
+    // Note: if you return a value,
     // res.json() will be called automatically
+    // (however, just because you can doesn't mean you should)
     return users;
 });
 
