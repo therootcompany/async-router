@@ -1,6 +1,5 @@
 {
     "node": true,
-    "browser": true,
     "validthis": true,
     "esversion": 8
 }
