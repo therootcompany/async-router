@@ -4,6 +4,9 @@
   "description": "Write Express middleware and route handlers using async/await",
   "main": "lib/index.js",
   "homepage": "https://github.com/therootcompany/async-router",
+  "files": [
+    "lib"
+  ],
   "engines": {
     "node": ">= 12.19.0",
     "npm": ">= 6.14.8"
