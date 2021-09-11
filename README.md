@@ -109,7 +109,7 @@ app.get('/foo', async function (req, res) {
     // Note: if you return a value,
     // res.json() will be called automatically
     // (however, just because you can doesn't mean you should)
-    return users;
+    return user;
 });
 
 // Handles existing routes too - no refactoring required!
