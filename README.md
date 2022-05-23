@@ -14,7 +14,7 @@ app.get('/foo', async function (req, res) {
     // no more try/catch wrappers
     // no more 'unhandledRejection' errors
     let user = await UserService.findById(req.user.id);
-    
+
     res.json(users);
 });
 ```
@@ -26,9 +26,9 @@ app.get('/foo', async function (req, res) {
 -   [x] supports `Promise`s
 -   [x] supports `async`/`await`
 -   [x] Proper error handling!
-    - [x] No more `unhandledPromiseRejectionWarning`  
-    - [x] No more `unhandledRejection`
-    - [x] No uncaught exception server crashes
+    -   [x] No more `unhandledPromiseRejectionWarning`
+    -   [x] No more `unhandledRejection`
+    -   [x] No uncaught exception server crashes
 -   [x] `res.json()` _can_ be called automatically
 
 ## Usage
@@ -54,10 +54,10 @@ app.get('/profile', async function (req, res, next) {
     try {
         let results = await ProfileModel.get(req.user.id);
         res.json(results);
-    } catch(e) {
+    } catch (e) {
         return next(e);
     }
-})
+});
 ```
 
 Or give them a facelift:
@@ -66,7 +66,7 @@ Or give them a facelift:
 // yay!
 app.get('/profile', async function (req, res) {
     res.json(await ProfileModel.get(req.user.id));
-})
+});
 ```
 
 #### Caveats
@@ -78,10 +78,7 @@ let app = require('@root/async-router').Router();
 
 // ...
 
-let server = express()
-    .use('trust proxy', 1)
-    .use('view engine', 'pug')
-    .use('/', app);
+let server = express().use('trust proxy', 1).use('view engine', 'pug').use('/', app);
 http.createServer(server).listen(3000, onListen);
 ```
 
@@ -188,15 +185,10 @@ It does NOT copy the top-level express server API. You should still use express 
 
 ```js
 // top-level options are still handled by the express server instance
-let server = express()
-    .set('trust proxy', 1)
-    .set('view engine', 'pug')
-    .use('/', app);
+let server = express().set('trust proxy', 1).set('view engine', 'pug').use('/', app);
 
-require('http')
-    .createServer(server)
-    .listen(3000, onListen);
-    
+require('http').createServer(server).listen(3000, onListen);
+
 function onListen() {
     console.info('Listening on', this.address());
 }

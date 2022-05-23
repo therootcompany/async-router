@@ -13,9 +13,9 @@ You can view these slides by running `npx slidev` in the same directory as this 
 # Why @root/async-router?
 
 ```js
-app.get("/profile", async function (req, res, next) {
+app.get('/profile', async function (req, res, next) {
     let results = await ProfileModel.get(req.user.id).catch(function (err) {
-        if ("E_NO_RECORD" !== err.code) {
+        if ('E_NO_RECORD' !== err.code) {
             throw err;
         }
         return Profile.create();
@@ -32,7 +32,7 @@ app.get("/profile", async function (req, res, next) {
 ## Default Router + Thunks (terribad)
 
 ```js
-app.get("/profile", function (req, res, next) {
+app.get('/profile', function (req, res, next) {
     ProfileModel.get(req.user.id, function (err, row) {
         function respond(err, results) {
             if (err) {
@@ -42,7 +42,7 @@ app.get("/profile", function (req, res, next) {
             res.json(results);
         }
         if (err) {
-            if ("E_NO_RECORD" !== err.code) {
+            if ('E_NO_RECORD' !== err.code) {
                 handleErrors(err);
                 return;
             }
@@ -65,7 +65,7 @@ app.get("/profile", function (req, res, next) {
 ## Default Router + Thunks (worse than you think)
 
 ```js
-app.get("/profile", function (req, res, next) {
+app.get('/profile', function (req, res, next) {
     ProfileModel.get(req.user.id, function (err, rows) {
         if (err) {
             // some error handling code here
@@ -92,7 +92,7 @@ app.get("/profile", function (req, res, next) {
 ## Step 1: Use Error Handlers
 
 ```js
-app.get("/profile", function (req, res, next) {
+app.get('/profile', function (req, res, next) {
     ProfileModel.get(req.user.id, function (err, rows) {
         if (err) {
             next(err);
@@ -112,13 +112,13 @@ app.get("/profile", function (req, res, next) {
 
 ```js
 function handleErrors(err, req, res, next) {
-    console.error("Unhandled Error:");
+    console.error('Unhandled Error:');
     console.error(err);
     res.statusCode = 500;
-    res.end("Internal Server Error");
+    res.end('Internal Server Error');
 }
 
-app.use("/", handleErrors);
+app.use('/', handleErrors);
 ```
 
 ---
@@ -126,10 +126,10 @@ app.use("/", handleErrors);
 ## Default Router + Promises (meh)
 
 ```js
-app.get("/profile", function (req, res, next) {
+app.get('/profile', function (req, res, next) {
     return ProfileModel.get(req.user.id)
         .catch(function (err) {
-            if ("E_NO_RECORD" !== err.code) {
+            if ('E_NO_RECORD' !== err.code) {
                 throw err;
             }
             return Profile.create();
@@ -148,13 +148,13 @@ app.get("/profile", function (req, res, next) {
 ## Default Router + Async/Await (worse)
 
 ```js
-app.get("/profile", async function (req, res, next) {
+app.get('/profile', async function (req, res, next) {
     try {
         let results;
         try {
             results = await ProfileModel.get(req.user.id);
         } catch (err) {
-            if ("E_NO_RECORD" !== err.code) {
+            if ('E_NO_RECORD' !== err.code) {
                 throw err;
             }
             results = Profile.create();
@@ -171,9 +171,9 @@ app.get("/profile", async function (req, res, next) {
 ## async-router (clean)
 
 ```js
-app.get("/profile", async function (req, res, next) {
+app.get('/profile', async function (req, res, next) {
     let results = await ProfileModel.get(req.user.id).catch(function (err) {
-        if ("E_NO_RECORD" !== err.code) {
+        if ('E_NO_RECORD' !== err.code) {
             throw err;
         }
         return Profile.create();
@@ -188,8 +188,8 @@ app.get("/profile", async function (req, res, next) {
 ## The Ideal Error
 
 ```js
-app.get("/error", async function (req, res) {
-    throw new Error("Life is hard...");
+app.get('/error', async function (req, res) {
+    throw new Error('Life is hard...');
 });
 ```
 
@@ -198,9 +198,9 @@ app.get("/error", async function (req, res) {
 ## Errors via Callbacks
 
 ```js
-app.get("/error", function (req, res) {
+app.get('/error', function (req, res) {
     setTimeout(function () {
-        next(new Error("Life is hard..."));
+        next(new Error('Life is hard...'));
     });
 });
 ```
@@ -210,7 +210,7 @@ app.get("/error", function (req, res) {
 ## Sync and Non-Sync Errors
 
 ```js
-app.get("/error", function (req, res) {
+app.get('/error', function (req, res) {
     try {
         doStuff(function (err) {
             next(err);
@@ -226,11 +226,11 @@ app.get("/error", function (req, res) {
 ## Custom Error Handling
 
 ```js
-app.use("/", async function (err, req, res, next) {
-    console.error("Unhandled Error:");
+app.use('/', async function (err, req, res, next) {
+    console.error('Unhandled Error:');
     console.error(err);
     res.statusCode = 500;
-    res.end("Internal Server Error");
+    res.end('Internal Server Error');
 });
 ```
 
@@ -239,7 +239,7 @@ app.use("/", async function (err, req, res, next) {
 ## The Ideal DataBase
 
 ```js
-app.get("/profile", async function (req, res) {
+app.get('/profile', async function (req, res) {
     let results = await ProfileModel.get(req.user.id);
     return results;
 });
@@ -250,10 +250,10 @@ app.get("/profile", async function (req, res) {
 ## Handling Empty Data
 
 ```js
-app.get("/profile", async function (req, res) {
+app.get('/profile', async function (req, res) {
     let results = await ProfileModel.get(req.user.id);
     if (!results) {
-        results = { bio: "", followers: [], following: [] };
+        results = { bio: '', followers: [], following: [] };
     }
     return results;
 });
@@ -264,13 +264,13 @@ app.get("/profile", async function (req, res) {
 ## Try Catch Madness
 
 ```js
-app.get("/profile", async function (req, res, next) {
+app.get('/profile', async function (req, res, next) {
     let results;
     try {
         results = await ProfileModel.get(req.user.id);
     } catch (err) {
-        if ("E_NO_RECORD" === err.code) {
-            results = { bio: "", followers: [], following: [] };
+        if ('E_NO_RECORD' === err.code) {
+            results = { bio: '', followers: [], following: [] };
         }
 
         next(err);
@@ -285,10 +285,10 @@ app.get("/profile", async function (req, res, next) {
 We could instead use Promises, and it actually gets a little bit better.
 
 ```js
-app.get("/profile", function (req, res) {
+app.get('/profile', function (req, res) {
     return ProfileModel.get(req.user.id).catch(function (err) {
-        if ("E_NO_RECORD" === err.code) {
-            return { bio: "", followers: [], following: [] };
+        if ('E_NO_RECORD' === err.code) {
+            return { bio: '', followers: [], following: [] };
         }
         next(err);
     });
@@ -300,11 +300,11 @@ app.get("/profile", function (req, res) {
 But if our example was just a little more complex we'd have to start doing promise chains and that could get obnoxious
 
 ```js
-app.get("/profile", function (req, res, next) {
+app.get('/profile', function (req, res, next) {
     return ProfileModel.get(req.user.id)
         .catch(function (err) {
-            if ("E_NO_RECORD" === err.code) {
-                return { bio: "", followers: [], following: [] };
+            if ('E_NO_RECORD' === err.code) {
+                return { bio: '', followers: [], following: [] };
             }
             next(err);
         })
@@ -322,10 +322,10 @@ app.get("/profile", function (req, res, next) {
 If we take the hybrid approach we start to get a lot cleaner
 
 ```js
-app.get("/profile", async function (req, res) {
+app.get('/profile', async function (req, res) {
     let profile = await ProfileModel.get(req.user.id).catch(function (err) {
-        if ("E_NO_RECORD" === err.code) {
-            return { bio: "", followers: [], following: [] };
+        if ('E_NO_RECORD' === err.code) {
+            return { bio: '', followers: [], following: [] };
         }
         throw err;
     });
