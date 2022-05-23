@@ -204,6 +204,41 @@ let syncApp = express.Router();
 let app = require('@root/async-router').wrap(syncApp);
 ```
 
+## Alternatives
+
+If you'd like to go dependency-free and use vanilla Express.js as-is,
+your best options are probably:
+
+1.  Use a wrapper promise _in_ each Handler
+    ```js
+    app.use(function (req, res, next) {
+        async function h() {
+            let result = await DB.doStuff();
+            res.json(result);
+        }
+        Promise.resolve().then(h).catch(next);
+    });
+    ```
+2.  Wrap _around_ each handler
+
+    ```js
+    app.use(
+        nextify(async function (req, res, next) {
+            let result = await DB.doStuff();
+            res.json(result);
+        })
+    );
+
+    function nextify(fn) {
+        return function (req, res, next) {
+            async function h() {
+                await fn(req, res, next);
+            }
+            Promise.resolve().then(h).catch(next);
+        };
+    }
+    ```
+
 ## [LICENSE](/LICENSE)
 
 Fork of [`express-promisify-router`][fork] to [bugfix error handling][fix].
