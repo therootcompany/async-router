@@ -29,7 +29,8 @@
     "lint": "npx jshint@2 lib",
     "prettier": "npx prettier@2 --write **/*.{js,md}",
     "test": "npx jest@26 --runInBand --projects jest.config.json --forceExit",
-    "preversion": "npm test"
+    "preversion": "npm test",
+    "version": "npm version -m \"chore(release): bump to v%s\""
   },
   "license": "MIT",
   "peerDependencies": {
