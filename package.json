@@ -26,11 +26,15 @@
     "es6"
   ],
   "scripts": {
-    "lint": "npx jshint@2 lib",
-    "prettier": "npx prettier@2 --write **/*.{js,md}",
+    "bump": "npm version -m \"chore(release): bump to v%s\"",
+    "fmt": "npm run prettier",
+    "lint": "npm run jshint",
+    "---------": "-----------------------------------------",
+    "jshint": "npx -p jshint@2 -- jshint lib",
+    "prettier": "npx -p prettier@2 -- prettier --write **/*.{js,md}",
+    "----------": "----------------------------------------",
     "test": "npx jest@26 --runInBand --projects jest.config.json --forceExit",
-    "preversion": "npm test",
-    "version": "npm version -m \"chore(release): bump to v%s\""
+    "preversion": "npm test"
   },
   "license": "MIT",
   "peerDependencies": {
