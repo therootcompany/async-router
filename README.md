@@ -15,7 +15,7 @@ app.get('/foo', async function (req, res) {
     // no more 'unhandledRejection' errors
     let user = await UserService.findById(req.user.id);
 
-    res.json(users);
+    res.json(user);
 });
 ```
 
@@ -35,7 +35,7 @@ app.get('/foo', async function (req, res) {
 
 ### TL;DR
 
-Swap out `app` for a the async router, and handle the server separately:
+Swap out `app` for the async router, and handle the server separately:
 
 ```js
 let app = require('@root/async-router').Router();
@@ -46,7 +46,7 @@ let server = express().use('/', app);
 http.createServer(server).listen(3000, onListen);
 ```
 
-Keep existing routes just they way they are...
+**Keep existing routes** just the (ugly) way they are...
 
 ```js
 // yuck!
@@ -60,12 +60,13 @@ app.get('/profile', async function (req, res, next) {
 });
 ```
 
-Or give them a facelift:
+**Or delete the cruft** to give them a facelift:
 
 ```js
 // yay!
 app.get('/profile', async function (req, res) {
-    res.json(await ProfileModel.get(req.user.id));
+    let profile = await ProfileModel.get(req.user.id);
+    res.json(profile);
 });
 ```
 
@@ -126,7 +127,7 @@ app.get('/foo', async function (req, res) {
         return;
     }
 
-    res.json(users);
+    res.json(user);
 });
 
 // Handle errors (must come after associated routes)
